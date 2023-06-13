@@ -15,9 +15,10 @@
     <div class="container mt-4">
         @if (session('success'))
         <div class="alert alert-success">
-            Enregisté avec successe
+            {{session('success')}}
         </div>
         @endif
+        
         @yield('content')
     </div>
 

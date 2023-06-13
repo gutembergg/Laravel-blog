@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,4 +29,10 @@ Route::prefix('posts')->name('blog.')->controller(PostController::class)->group(
     Route::post('/enregistrer', 'store')->name('store');
     Route::get('/{post}/edit', 'edit')->name('edit');
     Route::post('/{post}/edit', 'update')->name('update');
+});
+
+Route::prefix('categories')->name('category.')->controller(CategoryController::class)->group(function() {
+    Route::get('/enregistrer', 'create')->name('create');
+    Route::post('/enregistrer', 'store')->name('store');
+
 });

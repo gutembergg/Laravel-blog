@@ -23,7 +23,7 @@
               ]) href={{route('blog.create')}}>Enregistrer</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
+            <a class="nav-link" href={{ route('category.create') }}>New categories</a>
           </li>
         </ul>
       </div>

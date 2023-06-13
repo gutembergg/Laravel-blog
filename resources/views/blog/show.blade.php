@@ -9,6 +9,7 @@
 
     <p>{{$post->content}}</p>
 
+    <p>Categorie: {{$post->category->name}}</p>
 
     <a href={{ route('blog.edit', ['post' => $post]) }} class="btn btn-dark">Modifier</a>
 </article>
