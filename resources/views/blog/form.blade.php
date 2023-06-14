@@ -5,7 +5,7 @@
 
 @section('content')
 <article>
-    <form action="" method="POST" class="form-group">
+    <form action="{{ $post->id ? route('blog.update', ['post' => $post]) : route('blog.store') }}" method="POST" class="form-group">
         @csrf
        <div>
         <label for="title">Titre</label>
@@ -24,13 +24,21 @@
 
        <div>
         <div>Categories</div>
-        <select name="category" id="category">
+        <select name="category" id="category" class="form-control">
             @foreach ($categories as $category)
                 <option value={{$category->id}}>{{ $category->name }}</option>
             @endforeach
         </select>
        </div>
-        <button type="submit" class="btn btn-dark">
+       <div>
+        <div>Tags</div>
+       {{--  <select name="category" id="category" class="form-control" multiple>
+            @foreach ($categories as $category)
+                <option value={{$category->id}}>{{ $category->name }}</option>
+            @endforeach
+        </select> --}}
+       </div>
+        <button type="submit" class="btn btn-dark mt-4">
             @if ($post->id)
                 Modifier
             @else

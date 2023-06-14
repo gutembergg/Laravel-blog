@@ -15,15 +15,16 @@ class PostController extends Controller
 {
     public function index(): View
     {
-        $posts = Post::paginate(1);
+        Post::with('category')->get();
+        Post::with('tags')->get();
 
         return view('blog.index', [
-            'posts' => $posts
+            'posts' => Post::paginate(2)
         ]);
     }
 
     /**
-     * @return Post | RedirectResponse
+     * @return View | RedirectResponse
      */
 
     public function show(Post $post, string $slug)
@@ -66,8 +67,10 @@ class PostController extends Controller
 
     public function update(Post $post, FormPostRequest $request)
     {
-       // dd($post->update($request->validated()));
         $post->update($request->validated());
+        $category = Category::find($request->input('category'));
+        $post->category()->associate($category);
+        $post->save();
 
         return redirect()->route('blog.show', ['post' => $post, 'slug' => $post->slug])
                          ->with('success', "L'Article a bien été modifié");

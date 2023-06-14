@@ -9,8 +9,14 @@
     
     @foreach ($posts as $post)
     
-     <article>
+     <article class="mb-4">
         <h2>{{$post->title}}</h2>
+
+        <p>Category: {{ $post->category?->name }}</p>
+
+        @foreach ($post->tags as $tag)
+            <span class="badge bg-secondary">{{ $tag->name }}</span>
+        @endforeach
 
         <p>{{$post->content}}</p>
 

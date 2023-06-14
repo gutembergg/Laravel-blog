@@ -1,19 +1,10 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TagController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\CategoryController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
 Route::get('/', function () {
     return view('welcome');
@@ -34,5 +25,9 @@ Route::prefix('posts')->name('blog.')->controller(PostController::class)->group(
 Route::prefix('categories')->name('category.')->controller(CategoryController::class)->group(function() {
     Route::get('/enregistrer', 'create')->name('create');
     Route::post('/enregistrer', 'store')->name('store');
+});
 
+Route::prefix('tags')->name('tags.')->controller(TagController::class)->group(function() {
+    Route::get('/enregistrer', 'index')->name('index');
+    Route::post('/enregistrer', 'store')->name('store');
 });

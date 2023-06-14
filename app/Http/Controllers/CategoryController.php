@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
@@ -11,9 +12,10 @@ class CategoryController extends Controller
 {
     public function create(): View 
     {
-        $categories = Category::all();
-
-        return view('blog.category', ['categories' => $categories]);
+        $categories = Category::with('posts')->get();
+        $tags = Tag::all();
+        
+        return view('blog.category', ['categories' => $categories, 'tags' => $tags]);
     }
 
     public function store(Request $request): RedirectResponse
