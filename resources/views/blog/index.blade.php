@@ -14,9 +14,14 @@
 
         <p>Category: {{ $post->category?->name }}</p>
 
-        @foreach ($post->tags as $tag)
-            <span class="badge bg-secondary">{{ $tag->name }}</span>
-        @endforeach
+        @if (!$post->tags->isEmpty())
+
+            @foreach ($post->tags as $tag)
+                <span class="badge bg-secondary">{{ $tag->name }}</span>
+            @endforeach
+            
+        @endif
+   
 
         <p>{{$post->content}}</p>
 

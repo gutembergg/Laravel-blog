@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
 use App\Models\Post;
+use App\Models\User;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\FormPostRequest;
-use App\Models\Category;
-use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Contracts\Pagination\Paginator;
 
 class PostController extends Controller
 {
     public function index(): View
     {
-        Post::with('category')->get();
-        Post::with('tags')->get();
-
         return view('blog.index', [
-            'posts' => Post::paginate(2)
+            'posts' => Post::with('category', 'tags')->paginate(2)
         ]);
     }
 
@@ -43,6 +43,7 @@ class PostController extends Controller
     {
         $post = Post::create($request->validated());
         $category = Category::find($request->input('category'));
+       // $tags = Tag::find($request->input('category'));
         $post->category()->associate($category);
         $post->save();
 
@@ -54,20 +55,23 @@ class PostController extends Controller
     {
         $post = new Post();
         $categories = Category::all();
+        $tags = Tag::all();
 
-        return view('blog.create', ['post' => $post, 'categories' => $categories]);
+        return view('blog.create', ['post' => $post, 'categories' => $categories, 'tags' => $tags]);
     }
 
     public function edit(Post $post): View
     {
-        $categories = Category::all();
+        $categories = Category::select('id', 'name')->get();
+        $tags = Tag::select('id', 'name')->get();
 
-        return view('blog.edit', ['post' => $post, 'categories' => $categories]);
+        return view('blog.edit', ['post' => $post, 'categories' => $categories, 'tags' => $tags]);
     }
 
     public function update(Post $post, FormPostRequest $request)
     {
         $post->update($request->validated());
+        $post->tags()->sync($request->validated('tags'));
         $category = Category::find($request->input('category'));
         $post->category()->associate($category);
         $post->save();

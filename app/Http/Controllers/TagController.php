@@ -11,6 +11,7 @@ class TagController extends Controller
     {
         $tag = Tag::create(['name' => $request->input('name')]);
 
-      return view('blog.category');
+        return \redirect()->route('category.create');
+
     }
 }

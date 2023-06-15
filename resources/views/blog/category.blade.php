@@ -40,9 +40,7 @@
         <label for="tag">Name</label>
         <div>
             <input id="tag" type="text" name="name" class="form-control">
-            <select name="tags" id="tags">
-
-            </select>
+       
             @error('tags')
                 {{ $message }}
             @enderror
